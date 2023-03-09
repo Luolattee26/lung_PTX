@@ -1,0 +1,13 @@
+[1]Xia, Changfa; Dong, Xuesi; Li, He; Cao, Maomao; Sun, Dianqin; He, Siyi; Yang, Fan; Yan, Xinxin; Zhang, Shaoli; Li, Ni; Chen, Wanqing. Cancer statistics in China and United States, 2022: profiles, trends, and determinants. Chinese Medical Journal 135(5):p 584-590, March 5, 2022. | DOI: 10.1097/CM9.0000000000002108 
+[2]Gridelli, C., Rossi, A., Carbone, D. et al. Non-small-cell lung cancer. Nat Rev Dis Primers 1, 15009 (2015). https://doi.org/10.1038/nrdp.2015.9
+[3]https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm
+[4]https://clinicaltrials.gov/ct2/results?cond=lung+cancer&age_v=&gndr=&type=&rslt=&phase=1&phase=2&Search=Apply
+[5]Vogelstein B, Papadopoulos N, Velculescu V E, et al. Cancer genome landscapes[J]. science, 2013, 339(6127): 1546-1558.
+[6]Shalem O, Sanjana N E, Hartenian E, et al. Genome-scale CRISPR-Cas9 knockout screening in human cells[J]. Science, 2014, 343(6166): 84-87.
+[7]Engelman J A, Chen L, Tan X, et al. Effective use of PI3K and MEK inhibitors to treat mutant Kras G12D and PIK3CA H1047R murine lung cancers[J]. Nature medicine, 2008, 14(12): 1351-1356.
+[8]Sánchez-Rivera F J, Jacks T. Applications of the CRISPR–Cas9 system in cancer biology[J]. Nature reviews cancer, 2015, 15(7): 387-393.
+[9]Cheng, C., Pei, X., Li, SW. et al. CRISPR/Cas9 library screening uncovered methylated PKP2 as a critical driver of lung cancer radioresistance by stabilizing β-catenin. Oncogene 40, 2842–2857 (2021). https://doi.org/10.1038/s41388-021-01692-x
+[10]Jung, H.R., Oh, Y., Na, D. et al. CRISPR screens identify a novel combination treatment targeting BCL-XL and WNT signaling for KRAS/BRAF-mutated colorectal cancers. Oncogene 40, 3287–3302 (2021). https://doi.org/10.1038/s41388-021-01777-7
+[11]Zhen, S., Lu, J., Liu, YH. et al. Synergistic antitumor effect on cervical cancer by rational combination of PD1 blockade and CRISPR-Cas9-mediated HPV knockout. Cancer Gene Ther 27, 168–178 (2020). https://doi.org/10.1038/s41417-019-0131-9
+[12]Riedel, M., Berthelsen, M.F., Cai, H. et al. In vivo CRISPR inactivation of Fos promotes prostate cancer progression by altering the associated AP-1 subunit Jun. Oncogene 40, 2437–2447 (2021). https://doi.org/10.1038/s41388-021-01724-6
+
