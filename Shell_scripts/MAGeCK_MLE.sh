@@ -1,3 +1,6 @@
+cd /data/jxwang_data/yjz/Sample/lung_PTX_count
+
+
 # MAGeCK COUNT
 # TEST123
 mageck count -l ../Human_GeCKOv2_Library_A_3_mageck.csv -n sgRNA_count_test123 --fastq ../WGC085985-A02_R1.fastq \
@@ -22,14 +25,11 @@ mageck count -l ../Human_GeCKOv2_Library_A_3_mageck.csv -n sgRNA_count_test123 -
 
 # if use batch removed data,some negetive read counts will appear
 
+cd /data/jxwang_data/yjz/Sample/lung_PTX_mle
 
 # all 123
-mageck mle --count-table sgRNA_count_test123.count.txt \
---design-matrix designMTX.txt --norm-method control \
+mageck mle --count-table ../lung_PTX_count/sgRNA_count_test123.count.txt \
+--design-matrix designMTX_all_tests.txt --norm-method control \
 --control-sgrna nonessential_sgrna_list.txt \
 --output-prefix all_test123.mle --permutation-round 10 \
 --remove-outliers --threads 4
-
-
-
-

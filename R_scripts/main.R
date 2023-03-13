@@ -1,11 +1,13 @@
 rm(list = ls())
-setwd('c:/Users/Administrator/Desktop/lung_PTX/R_scripts/')
+setwd('~/Desktop/lung_PTX/R_scripts/')
 getwd()
 
 
 # install package
 library(dplyr)
 library(ggplot2)
+library(org.Hs.eg.db)
+library(clusterProfiler)
 if (require(MAGeCKFlute) == F){
   BiocManager::install('MAGeCKFlute')
 }else{
@@ -20,20 +22,20 @@ if (require(sva) == F){
 
 # raw data input
 raw_count <- read.csv('../sgRNA_count_test123.count.txt', sep = '\t', header = T)
-raw_count_only13 <- read.csv('../sgRNA_count_only13.count.txt', sep = '\t', header = T)
+# raw_count_only13 <- read.csv('../sgRNA_count_only13.count.txt', sep = '\t', header = T)
 
 # QC
 sgrna_countsummary <- read.csv('../sgRNA_count_test123.countsummary.txt', sep = '\t', header = T)
 QC <- function(countsummary){
   BarView(countsummary, x = "Label", y = "GiniIndex",ylab = "Gini index", main = "Evenness of sgRNA reads")
-  ggsave(path = './count_QC_result', filename = 'GiniIndex.pdf')
+  ggsave(path = './count_QC_result', filename = 'GiniIndex.pdf', width = 30, units = 'cm')
   
   countsummary$Missed = log10(countsummary$Zerocounts)
   BarView(countsummary, x = "Label", y = "Missed", fill = "#394E12",ylab = "Log10 missed gRNAs", main = "Missed sgRNAs")
-  ggsave(path = './count_QC_result', filename = 'Missed_sgrna.pdf')
+  ggsave(path = './count_QC_result', filename = 'Missed_sgrna.pdf', width = 30, units = 'cm')
   
   MapRatesView(countsummary)
-  ggsave(path = './count_QC_result', filename = 'MapRates.pdf')
+  ggsave(path = './count_QC_result', filename = 'MapRates.pdf', width = 30, units = 'cm')
 }
 QC(sgrna_countsummary)
 
@@ -73,12 +75,75 @@ write.table(nonessential_sgrna_list$V1, '../nonessential_sgrna_list.txt', quote 
 
 
 # downstream functional analysis
-library(clusterProfiler)
-library(org.Hs.eg.db)
+mle_result <- read.csv('../all_test123.mle.gene_summary.txt', sep = '\t', header = T)
+# unloadNamespace('MAGeCKFlute')
+# library(org.Hs.eg.db)
 The_list_of_core_essential_genes <- read.table('../The_list_of_core_essential_genes.txt', fileEncoding = 'utf-16le', header = T)
+
+mle_result_significant <- filter(mle_result, mle_result$PTX.wald.p.value < 0.01)
+mle_result_significant <- filter(mle_result, mle_result$PTX.wald.fdr < 0.05)
+
+id_list <- TransGeneID(mle_result_significant$Gene, 'Symbol', 'Entrez')
+id_list <- na.omit(id_list)
+
+# perform go enrichment
+go_enrich <- enrichGO(
+  gene = id_list,
+  OrgDb = org.Hs.eg.db,
+  keyType = 'ENTREZID',
+  ont = 'ALL',
+  pAdjustMethod = 'BH',
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  readable = T
+)
+
+go_enrich <- data.frame(go_enrich)
+
+
+kegg_enrich <- enrichKEGG(
+  gene = id_list,
+  organism = 'hsa',
+  keyType = 'kegg',
+  pAdjustMethod = 'BH',
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  minGSSize = 2,
+  maxGSSize = 200,
+  use_internal_data = F
+)
+
+kegg_enrich <- setReadable(kegg_enrich, OrgDb = org.Hs.eg.db, keyType = 'ENTREZID')
+kegg_enrich <- data.frame(kegg_enrich@result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # cell_cycle normalization
 FluteMLE('../all_test123.mle.gene_summary.txt', ctrlname = 'DMSO', treatname = 'PTX', pathview.top = 50, cell_lines = 'A549', top = 5, omitEssential = T, proj = 'all_123', 
-         enrich_method = 'HGT', scale_cutoff = 2, verbose = T, posControl = The_list_of_core_essential_genes$hgnc_symbol)
+         enrich_method = 'HGT', scale_cutoff = 2, verbose = T, posControl = The_list_of_core_essential_genes$hgnc_symbol, width = 12, height = 18)
+neg_kegg_result <- read.csv('./MAGeCKFlute_all_123/Enrichment/GroupB_kegg_cell_cycle.txt', sep = '\t', header = T)
+
+
 # GO&KEGG
 # input select result
 Selectionall_123squareview_data <- read.csv('./MAGeCKFlute_all_123/Selectionall_123squareview_data.txt', header = T, sep = '\t')
