@@ -57,7 +57,7 @@ FluteMLE('../all_test123.mle.gene_summary.txt', ctrlname = 'DMSO', treatname = '
 # select significant genes to rank
 raw_MLE_result <- read.csv('../all_test123.mle.gene_summary.txt', sep = '\t', header = T)
 selected_result <- read.csv('./MAGeCKFlute_all_123/Selection/Data_ScatterView_TreatvsCtrl.txt', header = T, sep = '\t')
-genes_significant_list <- (raw_MLE_result %>% filter(.$PTX.wald.fdr < 0.15))$Gene
+genes_significant_list <- (raw_MLE_result %>% filter(.$PTX.fdr < 0.05))$Gene
 selected_result_significant <- data.frame()
 for(gene in genes_significant_list){
   temp_df <- filter(selected_result, Gene == gene)
@@ -71,15 +71,16 @@ library(ggrepel)
 library(purrr)
 # rank plot
 rank_plot <- ggplot(selected_result, mapping = aes(x = Rank, y = Diff)) + geom_point(aes(color = group), size = 2.5) + 
-  geom_point(data = selected_result_significant, size = 4, color = 'purple') + 
-  geom_text_repel(data = selected_result_significant, aes(label = Gene), size = 4)
+  geom_point(data = filter(selected_result_significant, group == 'bottom', new_rank <= 5), size = 4, color = 'purple') + 
+  geom_text_repel(data = filter(selected_result_significant, group == 'bottom', new_rank <= 5), aes(label = Gene), size = 4)
 # Scatter View
 Scatter_View <- ggplot(filter(selected_result, group == 'bottom'), mapping = aes(x = RandomIndex, y = Diff)) + geom_point() +
-  geom_point(data = selected_result_significant, size = 4, color = 'blue') +
-  geom_text_repel(data = selected_result_significant, aes(label = Gene), size = 4, color = 'red')
+  geom_point(data = filter(selected_result_significant, group == 'bottom', new_rank <= 5), size = 4, color = 'blue') +
+  geom_text_repel(data = filter(selected_result_significant, group == 'bottom', new_rank <= 5), aes(label = Gene), size = 4, color = 'red')
 plots <- list(rank_plot, Scatter_View)
 filename <- stringr::str_c(c('rank_plot', 'Scatter_View'), '.pdf')
 pwalk(list(filename, plots), ggsave, path = './select_significant/', width = 30, height = 25, units = 'cm')
+
 
 
 
