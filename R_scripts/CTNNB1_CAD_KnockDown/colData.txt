@@ -1,0 +1,9 @@
+Sample	Type
+KO1	KO
+KO2	KO
+KO3	KO
+KO4	KO
+WT1	WT
+WT2	WT
+WT3	WT
+WT4	WT
